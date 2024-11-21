@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 20px;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px auto;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+      background-color: #007BFF;
+      color: #fff;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f9ff;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+    }
+
+    /* Set a wider width for the created_at column */
+    .created-at {
+      min-width: 90px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Location Data</h1>
+  <table id="data-table">
+    <thead>
+      <tr id="table-header">
+        <!-- Header cells will be dynamically added -->
+      </tr>
+    </thead>
+    <tbody id="table-body">
+      <!-- Data rows will be dynamically added -->
+    </tbody>
+  </table>
+
+  <script>
+    fetch('view_data.php')
+      .then(response => response.json())
+      .then(data => {
+        const tableHeader = document.getElementById('table-header');
+        const tableBody = document.getElementById('table-body');
+
+        if (data.length > 0) {
+          // Create table header
+          const columns = Object.keys(data[0]);
+          columns.forEach(col => {
+            const th = document.createElement('th');
+            th.textContent = col;
+            // Add a class for the created_at column
+            if (col === 'created_at') th.classList.add('created-at');
+            tableHeader.appendChild(th);
+          });
+
+          // Create table rows
+          data.forEach(entry => {
+            const tr = document.createElement('tr');
+            columns.forEach(col => {
+              const td = document.createElement('td');
+              td.textContent = entry[col] || 'N/A';
+              // Add a class for the created_at column
+              if (col === 'created_at') td.classList.add('created-at');
+              tr.appendChild(td);
+            });
+            tableBody.appendChild(tr);
+          });
+        } else {
+          // No data available
+          const noDataRow = document.createElement('tr');
+          const noDataCell = document.createElement('td');
+          noDataCell.textContent = 'No data available.';
+          noDataCell.colSpan = 100; // Assume enough to span all columns
+          noDataCell.style.textAlign = 'center';
+          noDataRow.appendChild(noDataCell);
+          tableBody.appendChild(noDataRow);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching data:', err);
+        const tableBody = document.getElementById('table-body');
+        const errorRow = document.createElement('tr');
+        const errorCell = document.createElement('td');
+        errorCell.textContent = 'Error loading data.';
+        errorCell.colSpan = 100; // Assume enough to span all columns
+        errorCell.style.textAlign = 'center';
+        errorRow.appendChild(errorCell);
+        tableBody.appendChild(errorRow);
+      });
+  </script>
+</body>
+</html>
