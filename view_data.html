@@ -98,7 +98,7 @@
                 if (entry.Lat && entry.Lon) {
                   const link = document.createElement('a');
                   //link.href = `https://www.google.com/maps?q=${entry.Lat},${entry.Lon}`;
-                  link.href = `https://apis.map.qq.com/tools/poimarker?type=0&marker=coord:${entry.Lat},${entry.Lon};title:目标位置&key=TENCENT_MAP_API&referer=APP_NAME`;
+                  link.href = `https://apis.map.qq.com/tools/poimarker?type=0&marker=coord:${entry.Lat},${entry.Lon};title:${entry.Lat},${entry.Lon}&key=TENCENT_MAP_API&referer=APP_NAME`;
                   link.textContent = `View Location`;
                   link.target = "_blank";  // Open in a new tab
                   td.appendChild(document.createElement('br'));  // Add line break before the link
