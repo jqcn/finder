@@ -51,7 +51,7 @@
 
     /* Set a wider width for the created_at column */
     .created-at {
-      min-width: 90px;
+      min-width: 100px;
     }
   </style>
 </head>
@@ -91,7 +91,22 @@
             const tr = document.createElement('tr');
             columns.forEach(col => {
               const td = document.createElement('td');
-              td.textContent = entry[col] || 'N/A';
+              if (col === 'created_at') {
+                // Show the created_at value but keep Lat and Lon as link
+                td.textContent = entry[col] || 'N/A';
+                // Check if Lat and Lon are present and create the link
+                if (entry.Lat && entry.Lon) {
+                  const link = document.createElement('a');
+                  //link.href = `https://www.google.com/maps?q=${entry.Lat},${entry.Lon}`;
+                  link.href = `https://apis.map.qq.com/tools/poimarker?type=0&marker=coord:${entry.Lat},${entry.Lon};title:目标位置&key=TENCENT_MAP_API&referer=APP_NAME`;
+                  link.textContent = `View Location`;
+                  link.target = "_blank";  // Open in a new tab
+                  td.appendChild(document.createElement('br'));  // Add line break before the link
+                  td.appendChild(link);  // Append link under the created_at value
+                }
+              } else {
+                td.textContent = entry[col] || 'N/A';
+              }
               // Add a class for the created_at column
               if (col === 'created_at') td.classList.add('created-at');
               tr.appendChild(td);
