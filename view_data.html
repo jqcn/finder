@@ -95,15 +95,30 @@
                 // Show the created_at value but keep Lat and Lon as link
                 td.textContent = entry[col] || 'N/A';
                 // Check if Lat and Lon are present and create the link
-                if (entry.Lat && entry.Lon) {
-                  const link = document.createElement('a');
-                  //link.href = `https://www.google.com/maps?q=${entry.Lat},${entry.Lon}`;
-                  link.href = `https://apis.map.qq.com/tools/poimarker?type=0&marker=coord:${entry.Lat},${entry.Lon};title:${entry.Lat},${entry.Lon}&key=TENCENT_MAP_API&referer=APP_NAME`;
-                  link.textContent = `View Location`;
-                  link.target = "_blank";  // Open in a new tab
-                  td.appendChild(document.createElement('br'));  // Add line break before the link
-                  td.appendChild(link);  // Append link under the created_at value
-                }
+
+		          if (entry.Lat && entry.Lon) {
+		            // 创建腾讯地图导航链接
+		            const tencentLink = document.createElement('a');
+		            tencentLink.href = `https://apis.map.qq.com/tools/poimarker?type=0&marker=coord:${entry.Lat},${entry.Lon};title:${entry.Lat},${entry.Lon}&keyTENCENT_KEY&referer=APP_NAME`;
+		            tencentLink.textContent = `腾讯地图导航`;
+		            tencentLink.target = "_blank";  // 在新标签页打开
+
+		            // 添加腾讯地图导航链接到单元格
+		            td.appendChild(document.createElement('br'));  // 添加换行符
+		            td.appendChild(tencentLink); 
+		            td.appendChild(document.createElement('br'))
+
+		            // 创建高德地图导航链接
+		            const AmapLink = document.createElement('a');
+		            AmapLink.href = `https://m.amap.com/navi/?start=&dest=${entry.Lon},${entry.Lat}&destName=${entry.Lon},${entry.Lat}&key=AMAP_KEY&jscode=AMAP_SKEY`;
+		            AmapLink.textContent = `高德地图导航`;
+		            AmapLink.target = "_blank";  // 在新标签页打开
+
+		            // 添加高德地图导航链接到单元格
+		            td.appendChild(document.createElement('br'));  // 添加换行符
+		            td.appendChild(AmapLink);
+		          }
+                
               } else {
                 td.textContent = entry[col] || 'N/A';
               }
